@@ -1,6 +1,7 @@
 package com.shihcheeng.hacgcompose.repository
 
 import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
+import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
 import com.shihcheeng.hacgcompose.parser.DetailParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,6 +24,12 @@ class DetailRepository @Inject constructor(
 
     suspend fun parserBody(element: Element): List<Node> = withContext(Dispatchers.Default) {
         parser.parserContentElement(element)
+    }
+
+    suspend fun parserComments(
+        element: Element
+    ): List<MainDetailComment>? = withContext(Dispatchers.Default) {
+        parser.parserComments(element)
     }
 
 }

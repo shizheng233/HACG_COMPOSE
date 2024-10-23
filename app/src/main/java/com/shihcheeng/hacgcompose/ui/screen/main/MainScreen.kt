@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.shihcheeng.hacgcompose.R
 import com.shihcheeng.hacgcompose.components.AnimatedPager
-import com.shihcheeng.hacgcompose.paging.ComicPaging
 import com.shihcheeng.hacgcompose.ui.screen.main.anime.AnimeScreen
 import com.shihcheeng.hacgcompose.ui.screen.main.article.ArticleScreen
 import com.shihcheeng.hacgcompose.ui.screen.main.comic.ComicScreen
@@ -30,7 +29,8 @@ import com.shihcheeng.hacgcompose.ui.screen.main.home.HomeScreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    onNav: (String) -> Unit
+    onSearch: () -> Unit,
+    onNav: (String) -> Unit,
 ) {
     val (selectedIndex, onSelected) = rememberSaveable { mutableIntStateOf(0) }
     val navModels = MainNavModel.create()
@@ -44,9 +44,7 @@ fun MainScreen(
                 },
                 actions = {
                     IconButton(
-                        onClick = {
-
-                        }
+                        onClick = onSearch
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.baseline_search_24),
@@ -86,9 +84,9 @@ fun MainScreen(
         ) {
             when (it) {
                 0 -> HomeScreen(onNav = onNav)
-                1 -> ArticleScreen()
-                2 -> AnimeScreen()
-                3 -> ComicScreen()
+                1 -> ArticleScreen(onNav = onNav)
+                2 -> AnimeScreen(onNav = onNav)
+                3 -> ComicScreen(onNav = onNav)
             }
         }
     }

@@ -16,6 +16,7 @@ import com.shihcheeng.hacgcompose.components.PagingTriStateScreen
 @Composable
 fun ArticleScreen(
     viewModel: ArticleViewModel = hiltViewModel(),
+    onNav: (String) -> Unit
 ) {
     val data = viewModel.data.collectAsLazyPagingItems()
     PagingTriStateScreen(
@@ -31,7 +32,9 @@ fun ArticleScreen(
         ) {
             items(data.itemCount) { index ->
                 data[index]?.let {
-                    MainCardView(mainModel = it) { }
+                    MainCardView(mainModel = it) {
+                        it.href.split("/").last().let(onNav)
+                    }
                 }
             }
         }

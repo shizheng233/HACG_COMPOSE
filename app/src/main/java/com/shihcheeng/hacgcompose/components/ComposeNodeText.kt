@@ -9,6 +9,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextDecoration
 import coil.compose.AsyncImage
+import com.shihcheeng.hacgcompose.ui.screen.detail.DetailKey
 import com.shihcheeng.hacgcompose.ui.theme.ReaderBodyMedium
 import com.shihcheeng.hacgcompose.ui.theme.ReaderShape
 import com.shihcheeng.hacgcompose.ui.theme.ReaderTitleMedium
@@ -17,9 +18,14 @@ import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
 
 
-fun LazyListScope.formatNodes(list: List<Node>) {
+fun LazyListScope.formatNodes(
+    key: Any,
+    list: List<Node>
+) {
     val composeNodeText = TextComposer { b ->
-        item {
+        item(
+            key = key
+        ) {
             val paragraph = b.toAnnotatedString()
             Text(
                 text = paragraph,
@@ -56,7 +62,9 @@ private fun TextComposer.tagsFormater(lazyListScope: LazyListScope, list: List<N
                             link = image,
                             onLinkClick = { }
                         ) {
-                            lazyListScope.item {
+                            lazyListScope.item(
+                                key = DetailKey.KEY_IMAGE_.name + image
+                            ) {
                                 AsyncImage(
                                     model = image,
                                     contentScale = ContentScale.Crop,

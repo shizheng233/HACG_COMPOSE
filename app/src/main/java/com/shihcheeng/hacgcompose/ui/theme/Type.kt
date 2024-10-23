@@ -39,8 +39,8 @@ val Typography = Typography(
 val ReaderBodyMedium = TextStyle(
     fontFamily = FontFamily.SansSerif,
     fontWeight = FontWeight.Normal,
-    fontSize = 16.sp,
-    lineHeight = (16 * 1.5).sp,
+    fontSize = 18.sp,
+    lineHeight = (18 * 1.5).sp,
     letterSpacing = 0.1.sp,
     fontStyle = FontStyle.Normal,
 )

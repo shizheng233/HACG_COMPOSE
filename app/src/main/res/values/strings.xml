@@ -10,4 +10,6 @@
     <string name="retry">重试</string>
     <string name="setting">设置</string>
     <string name="back_to_up">返回上一层级</string>
+    <string name="more">更多</string>
+    <string name="comments">评论</string>
 </resources>

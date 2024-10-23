@@ -3,11 +3,11 @@ package com.shihcheeng.hacgcompose.ui.screen.detail
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -17,7 +17,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -27,7 +26,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shihcheeng.hacgcompose.R
+import com.shihcheeng.hacgcompose.components.ErrorItem
 import com.shihcheeng.hacgcompose.components.ErrorScreen
 import com.shihcheeng.hacgcompose.components.TriStateScreen
 import com.shihcheeng.hacgcompose.components.formatNodes
@@ -39,9 +40,10 @@ fun DetailScreen(
     detailViewModel: DetailViewModel = hiltViewModel(),
     onBackUp: () -> Unit
 ) {
-    val title by detailViewModel.title.collectAsState()
-    val data by detailViewModel.nodes.collectAsState()
-    val titlePlain by detailViewModel.titlePlain.collectAsState()
+    val title by detailViewModel.title.collectAsStateWithLifecycle()
+    val data by detailViewModel.nodes.collectAsStateWithLifecycle()
+    val titlePlain by detailViewModel.titlePlain.collectAsStateWithLifecycle()
+    val comments by detailViewModel.comments.collectAsStateWithLifecycle()
     val lazyState = rememberLazyListState()
 
     Scaffold(
@@ -104,14 +106,38 @@ fun DetailScreen(
                 }
                 triState(
                     remoteLoadState = data,
-                    onError = {
-                        Column {
-                            Text("")
+                    onError = { e ->
+                        ErrorItem(errorMessage = e.localizedMessage) {
+                            detailViewModel.load()
                         }
                     }
                 ) { data ->
-                    formatNodes(data)
+                    formatNodes(key = DetailKey.CONTENTS, list = data)
                 }
+                item(
+                    key = DetailKey.COMMENTS
+                ) {
+                    Text(
+                        text = stringResource(R.string.comments),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+                triState(
+                    remoteLoadState = comments,
+                    onError = { e ->
+                        ErrorItem(errorMessage = e.localizedMessage) {
+                            detailViewModel.load()
+                        }
+                    },
+                    onSuccess = { datas ->
+                        items(datas) { x ->
+                            Text(
+                                text = x.comment
+                            )
+                        }
+                    }
+                )
             }
         }
     }

@@ -84,11 +84,18 @@ class TextComposer(
         append("\n")
     }
 
+    /**
+     * 添加文字。
+     *
+     * @param text 文本
+     */
     fun append(text: String) = builder.append(text)
 
     fun append(char: Char) = builder.append(char)
 
-
+    /**
+     * 添加图片
+     */
     fun <R> appendImage(
         link: String? = null,
         onLinkClick: (String) -> Unit,

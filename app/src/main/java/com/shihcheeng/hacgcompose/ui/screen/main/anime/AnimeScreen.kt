@@ -15,7 +15,8 @@ import com.shihcheeng.hacgcompose.components.PagingTriStateScreen
 
 @Composable
 fun AnimeScreen(
-    viewModel: AnimeViewModel = hiltViewModel()
+    viewModel: AnimeViewModel = hiltViewModel(),
+    onNav: (String) -> Unit
 ) {
     val data = viewModel.data.collectAsLazyPagingItems()
 
@@ -32,7 +33,9 @@ fun AnimeScreen(
         ) {
             items(data.itemCount) { index ->
                 data[index]?.let {
-                    MainCardView(mainModel = it) { }
+                    MainCardView(mainModel = it) {
+                        it.href.split("/").last().let(onNav)
+                    }
                 }
             }
         }

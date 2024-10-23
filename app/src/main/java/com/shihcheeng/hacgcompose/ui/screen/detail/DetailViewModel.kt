@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
+import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
 import com.shihcheeng.hacgcompose.networkservice.RemoteLoadState
 import com.shihcheeng.hacgcompose.repository.DetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,7 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _id = savedStateHandle.get<String>("detailId")
-    val id: Flow<String>
+    private val id: Flow<String>
         get() = MutableStateFlow(_id)
             .filterNotNull()
             .filter { x -> x.isNotBlank() && x.isNotEmpty() }
@@ -39,6 +40,11 @@ class DetailViewModel @Inject constructor(
     private val _nodes = MutableStateFlow<RemoteLoadState<List<Node>>>(RemoteLoadState.Loading)
     val nodes = _nodes.asStateFlow()
 
+    private val _comments = MutableStateFlow<RemoteLoadState<List<MainDetailComment>>>(
+        RemoteLoadState.Loading
+    )
+    val comments = _comments.asStateFlow()
+
     init {
         load()
     }
@@ -46,6 +52,7 @@ class DetailViewModel @Inject constructor(
     fun load() = viewModelScope.launch {
         _title.emit(RemoteLoadState.Loading)
         _nodes.emit(RemoteLoadState.Loading)
+        _comments.emit(RemoteLoadState.Loading)
         try {
             id.collectLatest {
                 val data = detailRepository.data(it)
@@ -53,11 +60,14 @@ class DetailViewModel @Inject constructor(
                 _title.emit(RemoteLoadState.Success(titlePackage))
                 _nodes.emit(RemoteLoadState.Success(detailRepository.parserBody(data)))
                 titlePlain.emit(titlePackage.title)
+                val comments = detailRepository.parserComments(data) ?: emptyList()
+                _comments.emit(RemoteLoadState.Success(comments))
             }
         } catch (e: Exception) {
             e.printStackTrace()
             _title.emit(RemoteLoadState.Error(e))
             _nodes.emit(RemoteLoadState.Error(e))
+            _comments.emit(RemoteLoadState.Error(e))
         }
     }
 
