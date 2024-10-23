@@ -21,19 +21,16 @@
 
 package com.shihcheeng.hacgcompose.components
 
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 
 /**
- * 适用于在[LazyListScope]中使用的[AnnotatedString.Builder]。我从
- * [ReadYou](https://github.com/Ashinch/ReadYou)中复制而来。
- * 简化了其实现方法。使用该方法可以在里面插入图片。
+ * 我从[ReadYou](https://github.com/Ashinch/ReadYou)中复制而来。
+ * 使用该方法可以在里面插入图片。
  *
  * @since 初始版本
  */
 class TextComposer(
-    val paragraphEmitter: (AnnotatedString.Builder) -> Unit,
+    val paragraphEmitter: (HacgAnnotatedStringBuilder) -> Unit,
 ) {
 
     val spanStack: MutableList<Span> = mutableListOf()
@@ -41,20 +38,20 @@ class TextComposer(
     /**
      * The identity of this will change - do not reference it in blocks
      */
-    private var builder: AnnotatedString.Builder = AnnotatedString.Builder()
+    private var builder: HacgAnnotatedStringBuilder = HacgAnnotatedStringBuilder()
 
     /**
      * 重置该[builder]。
      */
     fun terminateCurrentText() {
-        if (builder.toAnnotatedString().isEmpty()) {
+        if (builder.isEmpty()) {
             // Nothing to emit, and nothing to reset
             return
         }
 
         paragraphEmitter(builder)
 
-        builder = AnnotatedString.Builder()
+        builder = HacgAnnotatedStringBuilder()
 
         for (span in spanStack) {
             when (span) {
@@ -63,26 +60,16 @@ class TextComposer(
                     tag = span.tag,
                     annotation = span.annotation
                 )
-
             }
         }
     }
 
+    fun endsWithWhitespace() = builder.endsWithWhitespace
 
     /**
      * 添加两行。
      */
-    fun ensureDoubleNewline() = apply {
-        append("\n")
-        append("\n")
-    }
-
-    /**
-     * 添加一行。
-     */
-    fun ensureSingleNewline() = apply {
-        append("\n")
-    }
+    fun ensureDoubleNewline() = builder.ensureDoubleNewline()
 
     /**
      * 添加文字。
@@ -93,18 +80,16 @@ class TextComposer(
 
     fun append(char: Char) = builder.append(char)
 
+
     /**
      * 添加图片
      */
     fun <R> appendImage(
         link: String? = null,
         onLinkClick: (String) -> Unit,
-        block: (
-            onClick: (() -> Unit)?,
-        ) -> R,
+        block: (onClick: (() -> Unit)?) -> R,
     ): R {
         val url = link ?: findClosestLink()
-        // builder.ensureDoubleNewline()
         terminateCurrentText()
         val onClick: (() -> Unit)? = if (url?.isNotBlank() == true) {
             {
@@ -116,14 +101,23 @@ class TextComposer(
         return block(onClick)
     }
 
-    fun pop(index: Int) =
-        builder.pop(index)
+    fun <R> appendTable(block: () -> R): R {
+        builder.ensureDoubleNewline()
+        terminateCurrentText()
+        return block()
+    }
 
-    fun pushStyle(style: SpanStyle): Int =
-        builder.pushStyle(style)
+    fun pop(index: Int) = builder.pop(index)
 
-    fun pushStringAnnotation(tag: String, annotation: String): Int =
-        builder.pushStringAnnotation(tag = tag, annotation = annotation)
+    fun pushStyle(style: SpanStyle): Int = builder.pushStyle(style)
+
+    fun pushStringAnnotation(
+        tag: String,
+        annotation: String
+    ): Int = builder.pushStringAnnotation(
+        tag = tag,
+        annotation = annotation
+    )
 
 
     private fun findClosestLink(): String? {
@@ -134,18 +128,13 @@ class TextComposer(
         }
         return null
     }
+
 }
 
 inline fun <R : Any> TextComposer.withParagraph(
     crossinline block: TextComposer.() -> R,
 ): R {
-    ensureSingleNewline()
-    return block(this)
-}
-
-inline fun <R : Any> TextComposer.withChineseParagraph(
-    crossinline block: TextComposer.() -> R,
-): R {
+    ensureDoubleNewline()
     return block(this)
 }
 

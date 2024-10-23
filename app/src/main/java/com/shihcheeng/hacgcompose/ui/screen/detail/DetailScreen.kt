@@ -112,7 +112,7 @@ fun DetailScreen(
                         }
                     }
                 ) { data ->
-                    formatNodes(key = DetailKey.CONTENTS, list = data)
+                    formatNodes(list = data)
                 }
                 item(
                     key = DetailKey.COMMENTS
@@ -131,9 +131,11 @@ fun DetailScreen(
                         }
                     },
                     onSuccess = { datas ->
-                        items(datas) { x ->
-                            Text(
-                                text = x.comment
+                        items(
+                            items = datas
+                        ) { x ->
+                            DetailComment(
+                                contentComment = x
                             )
                         }
                     }

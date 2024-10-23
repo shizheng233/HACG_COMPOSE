@@ -11,6 +11,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import coil.compose.AsyncImage
 import com.shihcheeng.hacgcompose.ui.screen.detail.DetailKey
 import com.shihcheeng.hacgcompose.ui.theme.ReaderBodyMedium
+import com.shihcheeng.hacgcompose.ui.theme.ReaderBodySmall
 import com.shihcheeng.hacgcompose.ui.theme.ReaderShape
 import com.shihcheeng.hacgcompose.ui.theme.ReaderTitleMedium
 import org.jsoup.nodes.Element
@@ -19,13 +20,10 @@ import org.jsoup.nodes.TextNode
 
 
 fun LazyListScope.formatNodes(
-    key: Any,
     list: List<Node>
 ) {
     val composeNodeText = TextComposer { b ->
-        item(
-            key = key
-        ) {
+        item {
             val paragraph = b.toAnnotatedString()
             Text(
                 text = paragraph,
@@ -39,19 +37,29 @@ fun LazyListScope.formatNodes(
 }
 
 
-private fun TextComposer.tagsFormater(lazyListScope: LazyListScope, list: List<Node>) {
+private fun TextComposer.tagsFormater(
+    lazyListScope: LazyListScope,
+    list: List<Node>,
+    preString: Boolean = false,
+) {
     var node = list.firstOrNull()
     while (node != null) {
         when (node) {
             is TextNode -> {
-                append(node.wholeText)
+                if (preString) {
+                    append(node.wholeText)
+                } else {
+                    node.text().takeIf { x -> x.isNotEmpty() }?.let {
+                        append(it)
+                    }
+                }
             }
 
             is Element -> {
                 val element = node
                 when (element.tagName()) {
                     "p" -> {
-                        withChineseParagraph {
+                        withParagraph {
                             tagsFormater(lazyListScope, element.childNodes())
                         }
                     }
@@ -82,27 +90,58 @@ private fun TextComposer.tagsFormater(lazyListScope: LazyListScope, list: List<N
                         tagsFormater(lazyListScope, element.childNodes())
                     }
 
-                    "del" -> {
+                    "del", "s" -> {
                         withStyle(
                             ReaderBodyMedium.copy(
                                 textDecoration = TextDecoration.LineThrough
                             ).toSpanStyle()
                         ) {
-                            append((element.text()))
+                            tagsFormater(
+                                lazyListScope,
+                                element.childNodes()
+                            )
                         }
                     }
 
                     "br" -> {
-                        ensureSingleNewline()
+
                     }
 
                     "span" -> {
-                        tagsFormater(lazyListScope, element.childNodes())
+                        if (element.childNodes().isNotEmpty()) {
+                            tagsFormater(lazyListScope, element.childNodes())
+                        }
+                    }
+
+                    "ul" -> {
+                        element.children()
+                            .filter { it: Element ->
+                                it.tagName() == "li"
+                            }
+                            .forEach { listItem ->
+                                withParagraph {
+                                    append("  • ")
+                                    tagsFormater(
+                                        lazyListScope = lazyListScope,
+                                        list = listItem.childNodes(),
+                                    )
+                                }
+                            }
                     }
 
                     "h2" -> {
-                        withStyle(ReaderTitleMedium.toSpanStyle()) {
-                            append(element.text())
+                        withParagraph {
+                            withStyle(ReaderTitleMedium.toSpanStyle()) {
+                                append(element.text())
+                            }
+                        }
+                    }
+
+                    "pre" -> {
+                        withParagraph {
+                            withStyle(ReaderBodySmall) {
+                                tagsFormater(lazyListScope, element.childNodes(), true)
+                            }
                         }
                     }
 

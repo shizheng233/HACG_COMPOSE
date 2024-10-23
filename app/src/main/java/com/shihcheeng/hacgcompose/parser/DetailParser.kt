@@ -1,5 +1,6 @@
 package com.shihcheeng.hacgcompose.parser
 
+import androidx.core.net.toUri
 import com.shihcheeng.hacgcompose.datamodel.DetailComment
 import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
 import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
@@ -40,33 +41,46 @@ class DetailParser @Inject constructor(
     ): List<MainDetailComment>? = suspendCoroutine { cont ->
         val comments = element.select("#wpd-threads > div.wpd-thread-list").first()
             ?.getElementsByClass("comment")
-        val list = comments?.map {
-            val commentBody = it.getElementsByClass("wpd-comment-wrap").first()
+        val list = comments?.map { elementBox ->
+            val commentBody = elementBox.getElementsByClass("wpd-comment-wrap").first()
             val header = commentBody?.getElementsByClass("wpd-comment-header")?.first()
             val imageUrl = header
                 ?.getElementsByClass("wpd-avatar")?.first()
-                ?.getElementsByTag("img")?.first()
-                ?.attr("src")
+                ?.let {
+                    if (it.getElementsByTag("a").first() != null) {
+                        it.getElementsByTag("a").first()
+                    } else {
+                        it
+                    }
+                }?.getElementsByTag("img")?.first()
+                ?.attr("src")?.let {
+                    if (it.toUri().scheme != null) {
+                        it
+                    } else {
+                        "https:$it"
+                    }
+                }
             val name = header
                 ?.getElementsByClass("wpd-user-info")?.first()
                 ?.getElementsByClass("wpd-uinfo-top")?.first()
                 ?.getElementsByClass("wpd-comment-author")?.first()
-                ?.getElementsByTag("a")?.first()?.text()
+                ?.text()
             val time = header?.getElementsByClass("wpd-uinfo-bottom")
                 ?.first()?.getElementsByClass("wpd-comment-date")?.first()
                 ?.text()
-            val vote = it.getElementsByClass("wpd-comment-footer")
+            val vote = elementBox.getElementsByClass("wpd-comment-footer")
                 .first()?.getElementsByClass("wpd-vote")?.first()
                 ?.getElementsByClass("wpd-vote-result")?.first()
                 ?.text()
-            val commentContent = it.getElementsByClass("wpd-comment-text").text()
+            val commentContent = elementBox.getElementsByClass("wpd-comment-text")
+                .first()?.text()
             MainDetailComment(
-                name = name,
-                time = time,
-                imageUrl = imageUrl,
-                comment = commentContent,
-                vote = vote,
-                list = retryShaftComments(it.getElementsByClass("wpd_comment_level-2"))
+                name.orEmpty(),
+                time.orEmpty(),
+                imageUrl.orEmpty(),
+                commentContent.orEmpty(),
+                vote.orEmpty(),
+                retryShaftComments(elementBox.getElementsByClass("wpd_comment_level-2"))
             )
         }
         cont.resume(list)

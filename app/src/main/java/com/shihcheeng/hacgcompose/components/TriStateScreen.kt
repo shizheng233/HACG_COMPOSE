@@ -23,27 +23,34 @@ fun <T> TriStateScreen(
     }
 }
 
-fun <T> LazyListScope.triState(
+/**
+ * Tir-State in-list item.With this item, you can insert [onSuccess] layout for
+ * [RemoteLoadState.Loading], [onLoad] layout for [RemoteLoadState.Loading] and
+ * [onError] layout for [RemoteLoadState.Error].The success layout will provide
+ * a [T].
+ *
+ * @param remoteLoadState Provide a [RemoteLoadState] for observe.
+ * @param onLoad loading layout for [RemoteLoadState.Loading].
+ * @param onError error layout for [RemoteLoadState.Error].
+ * @param onSuccess success layout for [RemoteLoadState.Success].
+ */
+inline fun <reified T> LazyListScope.triState(
     remoteLoadState: RemoteLoadState<T>,
-    onLoad: @Composable () -> Unit = { LoadingItem() },
-    onError: @Composable (Throwable) -> Unit,
+    crossinline onLoad: @Composable () -> Unit = { LoadingItem() },
+    crossinline onError: @Composable (Throwable) -> Unit,
     onSuccess: LazyListScope.(data: T) -> Unit
 ) {
     when (remoteLoadState) {
         is RemoteLoadState.Error -> {
-            item(key = TriStateKey.ERROR) {
+            item {
                 onError(remoteLoadState.error)
             }
         }
 
-        RemoteLoadState.Loading -> item(key = TriStateKey.LOAD) {
+        RemoteLoadState.Loading -> item {
             onLoad()
         }
 
         is RemoteLoadState.Success -> onSuccess(remoteLoadState.data)
     }
-}
-
-enum class TriStateKey {
-    LOAD, ERROR
 }

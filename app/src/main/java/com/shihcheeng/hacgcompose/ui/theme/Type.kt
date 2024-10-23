@@ -1,6 +1,7 @@
 package com.shihcheeng.hacgcompose.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -41,6 +42,14 @@ val ReaderBodyMedium = TextStyle(
     fontWeight = FontWeight.Normal,
     fontSize = 18.sp,
     lineHeight = (18 * 1.5).sp,
+    letterSpacing = 0.1.sp,
+    fontStyle = FontStyle.Normal,
+)
+
+val ReaderBodySmall = SpanStyle(
+    fontFamily = FontFamily.Serif,
+    fontWeight = FontWeight.Normal,
+    fontSize = 14.sp,
     letterSpacing = 0.1.sp,
     fontStyle = FontStyle.Normal,
 )

@@ -16,22 +16,4 @@ data class MainDetailComment(
     val comment: String,
     val vote: String,
     val list: List<DetailComment>?
-) {
-
-    constructor(
-        name: String?,
-        time: String?,
-        imageUrl: String?,
-        comment: String?,
-        vote: String?,
-        list: List<DetailComment>?
-    ) : this(
-        name.orEmpty(),
-        time.orEmpty(),
-        imageUrl.orEmpty(),
-        comment.orEmpty(),
-        vote.orEmpty(),
-        list
-    )
-
-}
+)
