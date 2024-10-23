@@ -1,0 +1,78 @@
+[versions]
+agp = "8.6.1"
+kotlin = "2.0.0"
+kspVersion = "2.0.0-1.0.24"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.6"
+activityCompose = "1.9.2"
+composeBom = "2024.09.02"
+hiltVersion = "2.52"
+retrofitVersion = "2.11.0"
+okhttpBom = "4.12.0"
+formatVersion = "1.7.1"
+hiltViewModel = "1.2.0"
+navVersion = "2.8.1"
+coilVersion = "2.7.0"
+mdcMaterial = "1.12.0"
+motionVersion = "2.0.1"
+pagingVersion = "3.3.2"
+cascadeVersion = "2.3.0"
+roomVersion = "2.6.1"
+composeMaterial3Version = "1.3.0"
+textUiVersion = "1.7.2"
+subsamplingVersion = "4ec7176962"
+diskCacheVersion = "1.4"
+aboutPluginVersion = "11.2.3"
+aboutLibrariesVersion = "11.2.3"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-nav = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "textUiVersion" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "composeMaterial3Version" }
+androidx-material3-mdc = { group = "com.google.android.material", name = "material", version.ref = "mdcMaterial" }
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagingVersion" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingVersion" }
+androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+androidx-room-complier = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+tools-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
+tools-hilt-complie = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hiltVersion" }
+tools-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
+tools-retrofit-ktx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofitVersion" }
+tools-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "formatVersion" }
+tools-okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttpBom" }
+tools-okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
+tools-okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+tools-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltViewModel" }
+tools-coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
+tools-coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
+tools-motion = { group = "io.github.fornewid", name = "material-motion-compose-core", version.ref = "motionVersion" }
+tools-cascade-menu = { group = "me.saket.cascade", name = "cascade-compose", version.ref = "cascadeVersion" }
+tools-subsampling-scale-image-view = { group = "com.github.KotatsuApp", name = "subsampling-scale-image-view", version.ref = "subsamplingVersion" }
+tools-lru-cache = { group = "com.github.solkin", name = "disk-lru-cache", version.ref = "diskCacheVersion" }
+androidx-lifecycle-process = { group = "androidx.lifecycle",name = "lifecycle-process",version.ref = "lifecycleRuntimeKtx" }
+tools-about-core = { group = "com.mikepenz",name = "aboutlibraries-core",version.ref = "aboutLibrariesVersion"}
+tools-about-compose = { group = "com.mikepenz", name = "aboutlibraries-compose-m3",version.ref = "aboutLibrariesVersion" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+tools-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+about-libraries = { id = "com.mikepenz.aboutlibraries.plugin",version.ref = "aboutPluginVersion" }

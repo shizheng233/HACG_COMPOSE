@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">HACG</string>
+    <string name="home">主页</string>
+    <string name="movies">动漫</string>
+    <string name="book">漫画</string>
+    <string name="article">文章</string>
+    <string name="time_by_author">%1$s 经由 %2$s</string>
+    <string name="input_search_text">输入搜索内容</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="retry">重试</string>
+    <string name="setting">设置</string>
+    <string name="back_to_up">返回上一层级</string>
+</resources>
