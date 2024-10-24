@@ -7,11 +7,11 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import coil.compose.AsyncImage
-import com.shihcheeng.hacgcompose.ui.screen.detail.DetailKey
 import com.shihcheeng.hacgcompose.ui.theme.ReaderBodyMedium
-import com.shihcheeng.hacgcompose.ui.theme.ReaderBodySmall
 import com.shihcheeng.hacgcompose.ui.theme.ReaderShape
 import com.shihcheeng.hacgcompose.ui.theme.ReaderTitleMedium
 import org.jsoup.nodes.Element
@@ -43,6 +43,7 @@ private fun TextComposer.tagsFormater(
     preString: Boolean = false,
 ) {
     var node = list.firstOrNull()
+
     while (node != null) {
         when (node) {
             is TextNode -> {
@@ -70,9 +71,7 @@ private fun TextComposer.tagsFormater(
                             link = image,
                             onLinkClick = { }
                         ) {
-                            lazyListScope.item(
-                                key = DetailKey.KEY_IMAGE_.name + image
-                            ) {
+                            lazyListScope.item {
                                 AsyncImage(
                                     model = image,
                                     contentScale = ContentScale.Crop,
@@ -104,30 +103,30 @@ private fun TextComposer.tagsFormater(
                     }
 
                     "br" -> {
-
+                        append("\n")
                     }
 
                     "span" -> {
-                        if (element.childNodes().isNotEmpty()) {
+                        tagsFormater(lazyListScope, element.childNodes())
+                    }
+
+                    "strong" -> {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)){
                             tagsFormater(lazyListScope, element.childNodes())
                         }
                     }
 
-                    "ul" -> {
-                        element.children()
-                            .filter { it: Element ->
-                                it.tagName() == "li"
+                    "li" -> {
+                        withParagraph {
+                            withStyle(
+                                style = ReaderBodyMedium.toSpanStyle()
+                            ) {
+                                append(" -")
+                                tagsFormater(lazyListScope, element.childNodes())
                             }
-                            .forEach { listItem ->
-                                withParagraph {
-                                    append("  • ")
-                                    tagsFormater(
-                                        lazyListScope = lazyListScope,
-                                        list = listItem.childNodes(),
-                                    )
-                                }
-                            }
+                        }
                     }
+
 
                     "h2" -> {
                         withParagraph {
@@ -138,10 +137,8 @@ private fun TextComposer.tagsFormater(
                     }
 
                     "pre" -> {
-                        withParagraph {
-                            withStyle(ReaderBodySmall) {
-                                tagsFormater(lazyListScope, element.childNodes(), true)
-                            }
+                        withAnnotation(tag = "PRE", annotation = element.text()) {
+                            tagsFormater(lazyListScope, element.childNodes())
                         }
                     }
 
@@ -154,4 +151,6 @@ private fun TextComposer.tagsFormater(
         node = node.nextSibling()
     }
 }
+
+
 

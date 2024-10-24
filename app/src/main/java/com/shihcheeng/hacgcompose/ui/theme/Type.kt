@@ -56,11 +56,14 @@ val ReaderBodySmall = SpanStyle(
 
 val ReaderTitleMedium = TextStyle(
     fontFamily = FontFamily.SansSerif,
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.Bold,
     fontSize = 24.sp,
     lineHeight = (28 * 1.5).sp,
     letterSpacing = 0.2.sp,
-    fontStyle = FontStyle.Normal,
-    textIndent = TextIndent()
+    fontStyle = FontStyle.Normal
 )
 
+val TextStyle.ToCharIndent: TextIndent
+    get() {
+        return TextIndent(firstLine = fontSize.times(2))
+    }

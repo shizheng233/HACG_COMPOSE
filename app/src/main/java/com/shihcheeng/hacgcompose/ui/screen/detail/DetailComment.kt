@@ -105,7 +105,7 @@ fun DetailComment(
     }
 }
 
-private object DetailCommentCardColors {
+object DetailCommentCardColors {
     val Colors: CardColors
         @Composable
         get() {
@@ -122,8 +122,4 @@ private object DetailCommentCardColors {
         get() {
             return ColorPainter(MaterialTheme.colorScheme.secondaryContainer)
         }
-
-    val contentTextHolder = """
-        　SHE WAS AWAKENED by a shock, so sudden and severe that if Dorothy had not been lying on the soft bed she might have been hurt. As it was,the jar made her catch her breath and wonder what had happened; and Toto put his cold little nose into her face and whined dismally."""
-        .trimIndent()
 }

@@ -7,6 +7,7 @@ subsamplingVersion = "4ec7176962"
 diskCacheVersion = "1.4"
 aboutLibrariesVersion = "11.2.3"
 navVersion = "2.8.3"
+conveeterVersion = "1.0.2"
 
 [libraries]
 tools-coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
@@ -15,10 +16,11 @@ tools-motion = { group = "io.github.fornewid", name = "material-motion-compose-c
 tools-cascade-menu = { group = "me.saket.cascade", name = "cascade-compose", version.ref = "cascadeVersion" }
 tools-subsampling-scale-image-view = { group = "com.github.KotatsuApp", name = "subsampling-scale-image-view", version.ref = "subsamplingVersion" }
 tools-lru-cache = { group = "com.github.solkin", name = "disk-lru-cache", version.ref = "diskCacheVersion" }
-androidx-lifecycle-process = { group = "androidx.lifecycle",name = "lifecycle-process",version.ref = "lifecycleRuntimeKtx" }
-tools-about-core = { group = "com.mikepenz",name = "aboutlibraries-core",version.ref = "aboutLibrariesVersion"}
-tools-about-compose = { group = "com.mikepenz", name = "aboutlibraries-compose-m3",version.ref = "aboutLibrariesVersion" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleRuntimeKtx" }
+tools-about-core = { group = "com.mikepenz", name = "aboutlibraries-core", version.ref = "aboutLibrariesVersion" }
+tools-about-compose = { group = "com.mikepenz", name = "aboutlibraries-compose-m3", version.ref = "aboutLibrariesVersion" }
 androidx-nav = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
+tools-htmlconverter = { module = "be.digitalia.compose.htmlconverter:htmlconverter", version.ref = "conveeterVersion" }
 
 [plugins]
 

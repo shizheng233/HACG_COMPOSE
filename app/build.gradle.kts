@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.dagger.hilt.android)
-    kotlin("kapt")
     alias(shihcheeng.plugins.ksp)
     alias(shihcheeng.plugins.compose.compiler)
 }
@@ -80,6 +79,7 @@ dependencies {
     implementation(shihcheeng.androidx.paging.runtime)
     implementation(shihcheeng.androidx.paging.compose)
     implementation(shihcheeng.tools.hilt.navigation.compose)
+    implementation(everyuse.tools.htmlconverter)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -87,8 +87,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-}
-
-kapt {
-    correctErrorTypes = true
 }
