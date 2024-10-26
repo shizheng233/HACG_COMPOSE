@@ -19,7 +19,7 @@
  *
  */
 
-package com.shihcheeng.hacgcompose.components
+package com.shihcheeng.hacgcompose.components.htmlTransformer
 
 import androidx.compose.ui.text.SpanStyle
 
@@ -45,7 +45,6 @@ class TextComposer(
      */
     fun terminateCurrentText() {
         if (builder.isEmpty()) {
-            // Nothing to emit, and nothing to reset
             return
         }
 
@@ -67,9 +66,9 @@ class TextComposer(
     fun endsWithWhitespace() = builder.endsWithWhitespace
 
     /**
-     * 添加两行。
+     * 新行
      */
-    fun ensureDoubleNewline() = builder.ensureDoubleNewline()
+    fun newline() = builder.newline()
 
     /**
      * 添加文字。
@@ -101,8 +100,15 @@ class TextComposer(
         return block(onClick)
     }
 
+    fun <R> appendCompose(
+        block: () -> R,
+    ): R {
+        terminateCurrentText()
+        return block()
+    }
+
     fun <R> appendTable(block: () -> R): R {
-        builder.ensureDoubleNewline()
+        builder.newline()
         terminateCurrentText()
         return block()
     }
@@ -134,7 +140,7 @@ class TextComposer(
 inline fun <R : Any> TextComposer.withParagraph(
     crossinline block: TextComposer.() -> R,
 ): R {
-    ensureDoubleNewline()
+    newline()
     return block(this)
 }
 

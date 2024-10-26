@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.times
 import coil.compose.AsyncImage
 import com.shihcheeng.hacgcompose.R
 import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
@@ -38,6 +39,7 @@ fun DetailComment(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
+            .padding(start = contentComment.level * 16.dp)
             .then(modifier),
         colors = DetailCommentCardColors.Colors
     ) {
@@ -71,11 +73,22 @@ fun DetailComment(
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    Text(
-                        text = contentComment.time,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = contentComment.time,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        if (contentComment.reply != null) {
+                            Text(
+                                text = stringResource(R.string.reply_to, contentComment.reply),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
                 }
             }
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
@@ -100,6 +113,13 @@ fun DetailComment(
                     style = MaterialTheme.typography.labelMedium,
                     modifier = Modifier.padding(start = 4.dp)
                 )
+                if (contentComment.level > 0) {
+                    Text(
+                        text = stringResource(R.string.level_text, contentComment.level + 1),
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                }
             }
         }
     }

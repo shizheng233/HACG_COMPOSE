@@ -13,4 +13,7 @@
     <string name="more">更多</string>
     <string name="comments">评论</string>
     <string name="good">赞</string>
+    <string name="preview_text">预览</string>
+    <string name="reply_to">" • 回复给%1$s"</string>
+    <string name="level_text">• 第%1$s层</string>
 </resources>

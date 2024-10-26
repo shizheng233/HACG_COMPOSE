@@ -57,7 +57,8 @@ fun ErrorItem(
         contentAlignment = Alignment.Center
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = errorMessage ?: stringResource(R.string.unknown_error),

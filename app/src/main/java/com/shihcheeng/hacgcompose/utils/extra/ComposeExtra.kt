@@ -1,5 +1,7 @@
 package com.shihcheeng.hacgcompose.utils.extra
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -19,3 +21,7 @@ fun PaddingValues.margeWith(
     start = this.calculateStartPadding(layoutDirection) + start,
     end = this.calculateEndPadding(layoutDirection) + end
 )
+
+fun Context.toast(text: String, duration: Int) {
+    Toast.makeText(this, text, duration).show()
+}

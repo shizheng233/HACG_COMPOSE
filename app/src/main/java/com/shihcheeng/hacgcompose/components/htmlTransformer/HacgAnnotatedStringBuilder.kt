@@ -1,4 +1,4 @@
-package com.shihcheeng.hacgcompose.components
+package com.shihcheeng.hacgcompose.components.htmlTransformer
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -62,7 +62,7 @@ class HacgAnnotatedStringBuilder {
 fun HacgAnnotatedStringBuilder.isEmpty() = lastTwoChars.isEmpty()
 fun HacgAnnotatedStringBuilder.isNotEmpty() = lastTwoChars.isNotEmpty()
 
-fun HacgAnnotatedStringBuilder.ensureDoubleNewline() {
+fun HacgAnnotatedStringBuilder.newline() {
     when {
         lastTwoChars.isEmpty() -> {
             // Nothing to do
@@ -72,22 +72,21 @@ fun HacgAnnotatedStringBuilder.ensureDoubleNewline() {
             // Nothing to do
         }
 
-        length == 2 &&
-                lastTwoChars.peekLatest()?.isWhitespace() == true &&
-                lastTwoChars.peekSecondLatest()?.isWhitespace() == true -> {
-            // Nothing to do
+        length == 2 && lastTwoChars.peekLatest()?.isWhitespace() == true
+                && lastTwoChars.peekSecondLatest()?.isWhitespace() == true -> {
+            // 无事可做
         }
 
         lastTwoChars.peekLatest() == '\n' && lastTwoChars.peekSecondLatest() == '\n' -> {
-            // Nothing to do
+            //无事可做
         }
 
         lastTwoChars.peekLatest() == '\n' -> {
-            append('\n')
+            //无事可做。
         }
 
         else -> {
-            append("\n\n")
+            append('\n')
         }
     }
 }

@@ -19,11 +19,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
@@ -37,7 +40,7 @@ import com.shihcheeng.hacgcompose.R
 import com.shihcheeng.hacgcompose.components.ErrorItem
 import com.shihcheeng.hacgcompose.components.ErrorScreen
 import com.shihcheeng.hacgcompose.components.TriStateScreen
-import com.shihcheeng.hacgcompose.components.formatNodes
+import com.shihcheeng.hacgcompose.components.htmlTransformer.formatNodes
 import com.shihcheeng.hacgcompose.components.triState
 import com.shihcheeng.hacgcompose.utils.extra.margeWith
 
@@ -52,6 +55,8 @@ fun DetailScreen(
     val titlePlain by detailViewModel.titlePlain.collectAsStateWithLifecycle()
     val comments by detailViewModel.comments.collectAsStateWithLifecycle()
     val lazyState = rememberLazyListState()
+    val context = LocalContext.current
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
         topBar = {
@@ -75,10 +80,11 @@ fun DetailScreen(
                             contentDescription = stringResource(R.string.back_to_up)
                         )
                     }
-                }
+                },
+                scrollBehavior = scrollBehavior
             )
         },
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         TriStateScreen(
             remoteLoadState = title,
@@ -92,7 +98,9 @@ fun DetailScreen(
             )
         ) {
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .nestedScroll(scrollBehavior.nestedScrollConnection),
                 contentPadding = PaddingValues(horizontal = 16.dp)
                     .margeWith(
                         layoutDirection = LocalLayoutDirection.current,
@@ -109,7 +117,7 @@ fun DetailScreen(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
-                item(key = DetailKey.TIME) {
+                item(key = DetailKey.TIME_AND_AUTHOR) {
                     Text(
                         text = stringResource(R.string.time_by_author, it.time, it.author),
                         style = MaterialTheme.typography.bodyMedium,
@@ -125,18 +133,7 @@ fun DetailScreen(
                         }
                     }
                 ) { data ->
-                    formatNodes(list = data)
-                }
-                item(
-                    key = DetailKey.COMMENTS
-                ) {
-                    Text(
-                        text = stringResource(R.string.comments),
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        fontWeight = FontWeight.Bold
-                    )
+                    formatNodes(data)
                 }
                 triState(
                     remoteLoadState = comments,
@@ -146,6 +143,18 @@ fun DetailScreen(
                         }
                     },
                     onSuccess = { datas ->
+                        item(
+                            key = DetailKey.COMMENTS
+                        ) {
+                            Text(
+                                text = stringResource(R.string.comments),
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.padding(vertical = 8.dp),
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+
                         items(
                             items = datas
                         ) { x ->

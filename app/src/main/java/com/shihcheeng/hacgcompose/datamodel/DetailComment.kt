@@ -6,7 +6,7 @@ data class DetailComment(
     val imageUrl: String,
     val comment: String,
     val vote: String,
-    val toSomeone: String
+    val toSomeone: String,
 )
 
 data class MainDetailComment(
@@ -15,5 +15,9 @@ data class MainDetailComment(
     val imageUrl: String,
     val comment: String,
     val vote: String,
-    val list: List<DetailComment>?
+    val reply: String? = null,
+    /**
+     * 层级。
+     */
+    val level: Int = 1
 )

@@ -12,6 +12,7 @@ import com.shihcheeng.hacgcompose.utils.HOME_PAGE_WITH_PAGER
 import org.jsoup.nodes.Document
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface HacgService {
 
@@ -41,4 +42,17 @@ interface HacgService {
 
     @GET(DETAIL_URL)
     suspend fun getDetail(@Path("page") path: String): Document
+
+    @GET(HOME_PAGE)
+    suspend fun search(
+        @Query("s") word: String,
+        @Query("submit") submit: String = "搜索"
+    ): Document
+
+    @GET(HOME_PAGE_WITH_PAGER)
+    suspend fun search(
+        @Path("count") count: Int,
+        @Query("s") word: String,
+        @Query("submit") submit: String = "搜索"
+    ): Document
 }
