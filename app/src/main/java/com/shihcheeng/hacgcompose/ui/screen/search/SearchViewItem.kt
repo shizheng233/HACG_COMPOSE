@@ -14,12 +14,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.shihcheeng.hacgcompose.R
-import com.shihcheeng.hacgcompose.datamodel.MainDataModel
+import com.shihcheeng.hacgcompose.datamodel.SearchItemDataModel
 
 @Composable
 fun SearchViewItem(
     modifier: Modifier = Modifier,
-    mainModel: MainDataModel,
+    mainModel: SearchItemDataModel,
     onClick: () -> Unit
 ) {
     OutlinedCard(
@@ -35,7 +35,12 @@ fun SearchViewItem(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = stringResource(R.string.time_by_author, mainModel.time, mainModel.publisher),
+                text = stringResource(
+                    R.string.time_by_author,
+                    mainModel.time,
+                    mainModel.publisher,
+                    mainModel.category
+                ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 2.dp)
@@ -44,7 +49,7 @@ fun SearchViewItem(
                 text = mainModel.description,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(start = 2.dp)
+                modifier = Modifier.padding(start = 2.dp, top = 4.dp)
             )
             Row(
                 modifier = Modifier
@@ -59,10 +64,10 @@ fun SearchViewItem(
                         )
                 ) {
                     Text(
-                        text = mainModel.category.name
+                        text = stringResource(
+                            R.string.tags_with,
+                            mainModel.tags.joinToString("、") { x -> x.name })
                     )
-                    Text(text = " \u2022 ")
-                    Text(text = mainModel.tags.joinToString("、") { x -> x.name })
                 }
             }
         }

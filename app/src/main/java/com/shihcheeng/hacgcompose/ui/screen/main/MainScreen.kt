@@ -25,6 +25,7 @@ import com.shihcheeng.hacgcompose.ui.screen.main.article.ArticleScreen
 import com.shihcheeng.hacgcompose.ui.screen.main.comic.ComicScreen
 import com.shihcheeng.hacgcompose.ui.screen.main.constants.MainNavModel
 import com.shihcheeng.hacgcompose.ui.screen.main.home.HomeScreen
+import com.shihcheeng.hacgcompose.ui.screen.main.morecate.MoreCategoryScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,6 +88,7 @@ fun MainScreen(
                 1 -> ArticleScreen(onNav = onNav)
                 2 -> AnimeScreen(onNav = onNav)
                 3 -> ComicScreen(onNav = onNav)
+                4 -> MoreCategoryScreen()
             }
         }
     }

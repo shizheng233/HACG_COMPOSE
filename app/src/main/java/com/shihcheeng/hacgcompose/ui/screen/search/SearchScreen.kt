@@ -2,6 +2,7 @@ package com.shihcheeng.hacgcompose.ui.screen.search
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,27 +18,38 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.shihcheeng.hacgcompose.R
+import com.shihcheeng.hacgcompose.components.ErrorScreen
+import com.shihcheeng.hacgcompose.components.PagingTriStateScreen
+import com.shihcheeng.hacgcompose.components.WaitingSearchScreen
+import com.shihcheeng.hacgcompose.utils.extra.margeWith
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onItemClick: (String) -> Unit
 ) {
 
-    //val word by viewModel.searchWord.collectAsState()
+    val word by viewModel.searchWord.collectAsStateWithLifecycle()
     val (value, onValueChange) = rememberSaveable { mutableStateOf("") }
     val data = viewModel.emitSearch.collectAsLazyPagingItems()
 
@@ -56,7 +68,9 @@ fun SearchScreen(
                             onValueChange = onValueChange,
                             singleLine = true,
                             cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
-                            textStyle = MaterialTheme.typography.bodyLarge,
+                            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.onSurface
+                            ),
                             decorationBox = {
                                 androidx.compose.animation.AnimatedVisibility(
                                     visible = value.isEmpty(),
@@ -88,24 +102,54 @@ fun SearchScreen(
                                 contentDescription = stringResource(R.string.back_to_up)
                             )
                         }
-                    }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors()
+                        .copy(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                            titleContentColor = contentColorFor(MaterialTheme.colorScheme.surfaceContainerHigh)
+                        )
                 )
                 HorizontalDivider()
             }
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh, //依据官方网站。
+        contentColor = contentColorFor(MaterialTheme.colorScheme.surfaceContainerHigh) //无法判断，直接使用谷歌给的方法。
     ) { padding ->
-        LazyColumn(
-            contentPadding = padding
-        ) {
-            items(data.itemCount) { index ->
-                data[index]?.let { model ->
-                    SearchViewItem(
-                        mainModel = model
+        if (word.isEmpty()) {
+            WaitingSearchScreen()
+        } else {
+            PagingTriStateScreen(
+                loadState = data.loadState.refresh,
+                onError = {
+                    ErrorScreen(
+                        errorMessage = it.localizedMessage
                     ) {
-
+                        data.refresh()
+                    }
+                }
+            ) {
+                LazyColumn(
+                    contentPadding = padding.margeWith(
+                        layoutDirection = LocalLayoutDirection.current,
+                        start = 16.dp,
+                        end = 16.dp,
+                        top = 16.dp,
+                    ),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(data.itemCount) { index ->
+                        data[index]?.let {
+                            SearchViewItem(
+                                mainModel = it
+                            ) {
+                                it.href.split("/").last().let(onItemClick)
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
+

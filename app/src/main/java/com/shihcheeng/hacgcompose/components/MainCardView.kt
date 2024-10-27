@@ -37,7 +37,12 @@ fun MainCardView(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = stringResource(R.string.time_by_author, mainModel.time, mainModel.publisher),
+                text = stringResource(
+                    R.string.time_by_author,
+                    mainModel.time,
+                    mainModel.publisher,
+                    mainModel.category.name
+                ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 2.dp)
@@ -68,10 +73,11 @@ fun MainCardView(
                         )
                 ) {
                     Text(
-                        text = mainModel.category.name
+                        text = stringResource(
+                            R.string.tags_with,
+                            mainModel.tags.joinToString("、") { x -> x.name }
+                        )
                     )
-                    Text(text = " \u2022 ")
-                    Text(text = mainModel.tags.joinToString("、") { x -> x.name })
                 }
             }
         }

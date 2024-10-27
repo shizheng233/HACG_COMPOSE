@@ -119,7 +119,7 @@ fun DetailScreen(
                 }
                 item(key = DetailKey.TIME_AND_AUTHOR) {
                     Text(
-                        text = stringResource(R.string.time_by_author, it.time, it.author),
+                        text = stringResource(R.string.detail_info_author, it.time, it.author),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(top = 4.dp)
@@ -143,18 +143,19 @@ fun DetailScreen(
                         }
                     },
                     onSuccess = { datas ->
-                        item(
-                            key = DetailKey.COMMENTS
-                        ) {
-                            Text(
-                                text = stringResource(R.string.comments),
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(vertical = 8.dp),
-                                fontWeight = FontWeight.Bold
-                            )
+                        if (datas.isNotEmpty()) {
+                            item(
+                                key = DetailKey.COMMENTS
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.comments),
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.padding(vertical = 8.dp),
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
-
                         items(
                             items = datas
                         ) { x ->

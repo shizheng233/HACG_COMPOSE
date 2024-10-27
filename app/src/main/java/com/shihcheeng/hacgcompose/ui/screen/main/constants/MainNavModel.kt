@@ -36,11 +36,11 @@ data class MainNavModel(
                     icon = R.drawable.outline_menu_book_24,
                     pressIcon = R.drawable.baseline_menu_book_24
                 ),
-//                MainNavModel(
-//                    name = R.string.more,
-//                    icon = R.drawable.baseline_more_horiz_24,
-//                    pressIcon = R.drawable.baseline_more_horiz_24
-//                )
+                MainNavModel(
+                    name = R.string.more,
+                    icon = R.drawable.baseline_more_horiz_24,
+                    pressIcon = R.drawable.baseline_more_horiz_24
+                )
             )
         }
     }

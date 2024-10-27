@@ -43,7 +43,9 @@ fun Router(
         }
 
         composable(route = RouterName.Search.name) {
-            SearchScreen()
+            SearchScreen(onBack = navHostController::popBackStack) {
+                navHostController.toDetailScreen(it)
+            }
         }
 
     }

@@ -4,7 +4,8 @@
     <string name="movies">动漫</string>
     <string name="book">漫画</string>
     <string name="article">文章</string>
-    <string name="time_by_author">%1$s 经由 %2$s</string>
+    <string name="time_by_author">%1$s 经由 %2$s 发布在 %3$s</string>
+    <string name="detail_info_author">%1$s 经由 %2$s</string>
     <string name="input_search_text">输入搜索内容</string>
     <string name="unknown_error">未知错误</string>
     <string name="retry">重试</string>
@@ -16,4 +17,9 @@
     <string name="preview_text">预览</string>
     <string name="reply_to">" • 回复给%1$s"</string>
     <string name="level_text">• 第%1$s层</string>
+    <string name="waiting_for_search">等待搜索</string>
+    <string name="tags_with">"标签为 • %1$s"</string>
+    <string name="game">游戏</string>
+    <string name="novel">轻小说</string>
+    <string name="music">音乐</string>
 </resources>
