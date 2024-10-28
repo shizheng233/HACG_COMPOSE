@@ -90,7 +90,8 @@ fun SearchScreen(
                                     viewModel.search(value)
                                 }
                             ),
-                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                            modifier = Modifier.fillMaxWidth()
                         )
                     },
                     navigationIcon = {
@@ -107,7 +108,21 @@ fun SearchScreen(
                         .copy(
                             containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
                             titleContentColor = contentColorFor(MaterialTheme.colorScheme.surfaceContainerHigh)
-                        )
+                        ),
+                    actions = {
+                        if (value.isNotEmpty()) {
+                            IconButton(
+                                onClick = {
+                                    onValueChange("")
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(R.drawable.outline_clear_24),
+                                    contentDescription = stringResource(R.string.clear_text)
+                                )
+                            }
+                        }
+                    }
                 )
                 HorizontalDivider()
             }

@@ -88,7 +88,7 @@ fun MainScreen(
                 1 -> ArticleScreen(onNav = onNav)
                 2 -> AnimeScreen(onNav = onNav)
                 3 -> ComicScreen(onNav = onNav)
-                4 -> MoreCategoryScreen()
+                4 -> MoreCategoryScreen(onNav = onNav,behavior = scrollBehavior)
             }
         }
     }
