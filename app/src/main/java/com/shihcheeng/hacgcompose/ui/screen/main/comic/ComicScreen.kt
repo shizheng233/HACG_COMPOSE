@@ -9,9 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.shihcheeng.hacgcompose.components.ErrorItem
 import com.shihcheeng.hacgcompose.components.ErrorScreen
 import com.shihcheeng.hacgcompose.components.MainCardView
 import com.shihcheeng.hacgcompose.components.PagingTriStateScreen
+import com.shihcheeng.hacgcompose.components.pagingTriStateScreen
 
 @Composable
 fun ComicScreen(
@@ -42,6 +44,12 @@ fun ComicScreen(
                     }
                 }
             }
+            pagingTriStateScreen(
+                loadState = data.loadState.prepend,
+                onError = {
+                    ErrorItem(errorMessage = it.localizedMessage, onRetry = data::retry)
+                }
+            )
         }
     }
 

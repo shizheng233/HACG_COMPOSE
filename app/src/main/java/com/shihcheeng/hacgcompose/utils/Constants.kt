@@ -1,5 +1,7 @@
 package com.shihcheeng.hacgcompose.utils
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import org.jsoup.nodes.Element
 
 
@@ -23,6 +25,11 @@ const val COMMENT_LEVEL_2 = "wpd_comment_level-2"
 const val COMMENT_LEVEL_3 = "wpd_comment_level-3"
 const val COMMENT_LEVEL_4 = "wpd_comment_level-4"
 const val COMMENT_LEVEL_5 = "wpd_comment_level-5"
+/*
+https://www.hacg.icu
+https://www.llss.icu
+https://www.hacg.mov
+ */
 
 fun commentLevelFor(element: Element?): Int {
     val classesName = element?.classNames() ?: emptyList<String>()

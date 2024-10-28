@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -35,6 +36,28 @@ fun PagingTriStateScreen(
             is LoadState.Error -> onError(loadState.error)
             LoadState.Loading -> onLoading(loadState)
             is LoadState.NotLoading -> onNotLoading()
+        }
+    }
+}
+
+
+fun LazyListScope.pagingTriStateScreen(
+    loadState: LoadState,
+    onError: @Composable (Throwable) -> Unit,
+    onLoading: @Composable (thisState: LoadState) -> Unit = { LoadingItem() },
+    onNotLoading: @Composable () -> Unit = {}
+) {
+    when (loadState) {
+        is LoadState.Error -> item {
+            onError(loadState.error)
+        }
+
+        LoadState.Loading -> item {
+            onLoading(loadState)
+        }
+
+        is LoadState.NotLoading -> item {
+            onNotLoading()
         }
     }
 }

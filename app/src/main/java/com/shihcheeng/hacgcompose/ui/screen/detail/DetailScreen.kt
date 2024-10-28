@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +43,8 @@ import com.shihcheeng.hacgcompose.components.ErrorScreen
 import com.shihcheeng.hacgcompose.components.TriStateScreen
 import com.shihcheeng.hacgcompose.components.htmlTransformer.formatNodes
 import com.shihcheeng.hacgcompose.components.triState
+import com.shihcheeng.hacgcompose.ui.icons.Iconify
+import com.shihcheeng.hacgcompose.ui.icons.MdiMagnet
 import com.shihcheeng.hacgcompose.utils.extra.margeWith
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -57,6 +60,7 @@ fun DetailScreen(
     val lazyState = rememberLazyListState()
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    var showDialog = false
 
     Scaffold(
         topBar = {
@@ -85,6 +89,22 @@ fun DetailScreen(
             )
         },
         modifier = Modifier.fillMaxSize(),
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = {
+                    Text(text = stringResource(R.string.see_the_magnet))
+                },
+                icon = {
+                    Icon(
+                        imageVector = Iconify.MdiMagnet,
+                        contentDescription = stringResource(R.string.see_the_magnet)
+                    )
+                },
+                onClick = {
+                    showDialog = false
+                }
+            )
+        }
     ) {
         TriStateScreen(
             remoteLoadState = title,
@@ -107,7 +127,7 @@ fun DetailScreen(
                         bottom = WindowInsets.systemBars
                             .asPaddingValues(LocalDensity.current)
                             .calculateBottomPadding()
-                    ),
+                    ).margeWith(layoutDirection = LocalLayoutDirection.current, bottom = 82.dp),
                 state = lazyState
             ) {
                 item(key = DetailKey.TOP) {
@@ -167,6 +187,10 @@ fun DetailScreen(
                 )
             }
         }
+    }
+
+    if (showDialog){
+
     }
 
 }

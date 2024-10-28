@@ -8,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
+import com.shihcheeng.hacgcompose.components.ErrorItem
 import com.shihcheeng.hacgcompose.components.MainCardView
+import com.shihcheeng.hacgcompose.components.pagingTriStateScreen
 import com.shihcheeng.hacgcompose.datamodel.MainDataModel
 
 @Composable
@@ -24,13 +26,19 @@ fun HomeScreenContent(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        items(list.itemCount){ index ->
+        items(list.itemCount) { index ->
             list[index]?.let {
                 MainCardView(mainModel = it) {
                     onClick(it.href)
                 }
             }
         }
+        pagingTriStateScreen(
+            loadState = list.loadState.append,
+            onError = {
+                ErrorItem(errorMessage = it.localizedMessage, onRetry = list::retry)
+            }
+        )
     }
 }
 
