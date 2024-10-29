@@ -23,6 +23,8 @@ const val COMMENT_LEVEL_2 = "wpd_comment_level-2"
 const val COMMENT_LEVEL_3 = "wpd_comment_level-3"
 const val COMMENT_LEVEL_4 = "wpd_comment_level-4"
 const val COMMENT_LEVEL_5 = "wpd_comment_level-5"
+const val COMMENT_BY_POST_AUTHOR = "bypostauthor"
+const val COMMENT_IS_STICKY_COMMENT = "wpd-sticky-comment"
 /*
 https://www.hacg.icu
 https://www.llss.icu
@@ -37,5 +39,21 @@ fun commentLevelFor(element: Element?): Int {
         classesName.contains(COMMENT_LEVEL_3) -> 2
         classesName.contains(COMMENT_LEVEL_2) -> 1
         else -> 0
+    }
+}
+
+fun Element?.detectCommentIsByAuthor(): Boolean {
+    val classesName = this?.classNames() ?: emptyList<String>()
+    return when {
+        classesName.contains(COMMENT_BY_POST_AUTHOR) -> true
+        else -> false
+    }
+}
+
+fun Element?.detectCommentIsSticky(): Boolean {
+    val classesName = this?.classNames() ?: emptyList<String>()
+    return when {
+        classesName.contains(COMMENT_IS_STICKY_COMMENT) -> true
+        else -> false
     }
 }

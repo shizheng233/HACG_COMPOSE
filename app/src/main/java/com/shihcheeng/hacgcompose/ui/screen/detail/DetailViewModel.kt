@@ -56,8 +56,8 @@ class DetailViewModel @Inject constructor(
         _nodes.emit(RemoteLoadState.Loading)
         _comments.emit(RemoteLoadState.Loading)
         try {
-            id.collectLatest {
-                val data = detailRepository.data(it)
+            id.collectLatest { hrefId ->
+                val data = detailRepository.data(hrefId)
                 val titlePackage = detailRepository.parserTitle(data)
                 _title.emit(RemoteLoadState.Success(titlePackage))
                 _nodes.emit(RemoteLoadState.Success(detailRepository.parserBody(data)))

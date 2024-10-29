@@ -6,6 +6,8 @@ import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
 import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
 import com.shihcheeng.hacgcompose.networkservice.HacgService
 import com.shihcheeng.hacgcompose.utils.commentLevelFor
+import com.shihcheeng.hacgcompose.utils.detectCommentIsByAuthor
+import com.shihcheeng.hacgcompose.utils.detectCommentIsSticky
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import javax.inject.Inject
@@ -93,7 +95,9 @@ class DetailParser @Inject constructor(
                 comment = commentContent.orEmpty(),
                 vote = vote.orEmpty(),
                 level = commentLevelFor(elementBox),
-                reply = replySomeOne
+                reply = replySomeOne,
+                isStickyTop = elementBox.detectCommentIsSticky(),
+                isByAuthor = elementBox.detectCommentIsByAuthor()
             )
         }
         cont.resume(list)

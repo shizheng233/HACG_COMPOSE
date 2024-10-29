@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Badge
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,11 +70,39 @@ fun DetailComment(
                 Column(
                     modifier = Modifier.padding(start = 8.dp)
                 ) {
-                    Text(
-                        text = contentComment.name,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = contentComment.name,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        if (contentComment.isByAuthor) {
+                            Badge(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = contentColorFor(MaterialTheme.colorScheme.primaryContainer)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.by_author_text),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+                        if (contentComment.isStickyTop) {
+                            Badge(
+                                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                                contentColor = contentColorFor(MaterialTheme.colorScheme.secondaryContainer)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.sticky_top_text),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+                    }
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
