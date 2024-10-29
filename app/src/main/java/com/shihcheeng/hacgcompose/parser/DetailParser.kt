@@ -42,7 +42,7 @@ class DetailParser @Inject constructor(
         element: Element
     ): List<MainDetailComment>? = suspendCoroutine { cont ->
         val comments = element.select("#wpd-threads > div.wpd-thread-list").first()
-            ?.getElementsByClass("comment")
+            ?.getElementsByClass("wpd-comment")
         val list = comments?.map { elementBox ->
             val commentBody = elementBox.getElementsByClass("wpd-comment-wrap").first()
                 .also {

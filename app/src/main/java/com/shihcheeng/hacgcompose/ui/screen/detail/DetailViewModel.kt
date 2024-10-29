@@ -7,6 +7,7 @@ import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
 import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
 import com.shihcheeng.hacgcompose.networkservice.RemoteLoadState
 import com.shihcheeng.hacgcompose.repository.DetailRepository
+import com.shihcheeng.hacgcompose.utils.extra.magnet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,8 +36,6 @@ class DetailViewModel @Inject constructor(
     )
     val title = _title.asStateFlow()
 
-    val titlePlain = MutableStateFlow("")
-
     private val _nodes = MutableStateFlow<RemoteLoadState<List<Node>>>(RemoteLoadState.Loading)
     val nodes = _nodes.asStateFlow()
 
@@ -44,6 +43,9 @@ class DetailViewModel @Inject constructor(
         RemoteLoadState.Loading
     )
     val comments = _comments.asStateFlow()
+
+    val titlePlain = MutableStateFlow("")
+    val magnetList = MutableStateFlow(emptyList<String>())
 
     init {
         load()
@@ -62,6 +64,7 @@ class DetailViewModel @Inject constructor(
                 titlePlain.emit(titlePackage.title)
                 val comments = detailRepository.parserComments(data) ?: emptyList()
                 _comments.emit(RemoteLoadState.Success(comments))
+                magnetList.emit(data.text().magnet().toList().map { "magnet:?xt=urn:btih:$it" })
             }
         } catch (e: Exception) {
             e.printStackTrace()

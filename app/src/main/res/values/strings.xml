@@ -24,4 +24,8 @@
     <string name="music">音乐</string>
     <string name="clear_text">清除内容</string>
     <string name="see_the_magnet">查看种子</string>
+    <string name="magnet_list_title">种子列表</string>
+    <string name="magnet_list_summary">这是探测到的种子的列表，按照道理来说会将评论区里面的种子一并获取到。当然，不一定全。</string>
+    <string name="open_magnet">打开</string>
+    <string name="copy_magnet">复制</string>
 </resources>

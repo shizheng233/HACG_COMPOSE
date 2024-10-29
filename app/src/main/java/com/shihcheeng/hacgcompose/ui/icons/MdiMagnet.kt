@@ -13,8 +13,8 @@ val Iconify.MdiMagnet: ImageVector
         }
         _MdiMagnet = ImageVector.Builder(
             name = "MdiMagnet",
-            defaultWidth = 1.dp,
-            defaultHeight = 1.dp,
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
             viewportWidth = 24f,
             viewportHeight = 24f
         ).apply {

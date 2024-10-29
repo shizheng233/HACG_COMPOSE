@@ -24,14 +24,18 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -40,12 +44,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shihcheeng.hacgcompose.R
 import com.shihcheeng.hacgcompose.components.ErrorItem
 import com.shihcheeng.hacgcompose.components.ErrorScreen
+import com.shihcheeng.hacgcompose.components.MagnetDialog
 import com.shihcheeng.hacgcompose.components.TriStateScreen
 import com.shihcheeng.hacgcompose.components.htmlTransformer.formatNodes
 import com.shihcheeng.hacgcompose.components.triState
 import com.shihcheeng.hacgcompose.ui.icons.Iconify
 import com.shihcheeng.hacgcompose.ui.icons.MdiMagnet
 import com.shihcheeng.hacgcompose.utils.extra.margeWith
+import com.shihcheeng.hacgcompose.utils.extra.openMagnet
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,10 +63,13 @@ fun DetailScreen(
     val data by detailViewModel.nodes.collectAsStateWithLifecycle()
     val titlePlain by detailViewModel.titlePlain.collectAsStateWithLifecycle()
     val comments by detailViewModel.comments.collectAsStateWithLifecycle()
+    val magnetList by detailViewModel.magnetList.collectAsStateWithLifecycle()
     val lazyState = rememberLazyListState()
+    val clipboard = LocalClipboardManager.current
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    var showDialog = false
+    var showDialog by remember { mutableStateOf(false) }
+
 
     Scaffold(
         topBar = {
@@ -101,8 +110,9 @@ fun DetailScreen(
                     )
                 },
                 onClick = {
-                    showDialog = false
-                }
+                    showDialog = true
+                },
+                expanded = true
             )
         }
     ) {
@@ -189,8 +199,13 @@ fun DetailScreen(
         }
     }
 
-    if (showDialog){
-
+    if (showDialog) {
+        MagnetDialog(
+            list = magnetList,
+            dismissRequest = { showDialog = false },
+            onOpen = context::openMagnet,
+            onCopy = { clipboard.setText(AnnotatedString(it)) }
+        )
     }
 
 }
