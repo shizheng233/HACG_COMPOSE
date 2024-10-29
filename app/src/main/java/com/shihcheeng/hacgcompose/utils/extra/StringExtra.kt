@@ -23,3 +23,12 @@ fun Context.openMagnet(magnet: String) {
         e.printStackTrace()
     }
 }
+
+fun <K, V> Map<K, V>.findKeyByValue(value: V): K? {
+    for ((k, v) in entries) {
+        if (v == value) {
+            return k
+        }
+    }
+    return null
+}

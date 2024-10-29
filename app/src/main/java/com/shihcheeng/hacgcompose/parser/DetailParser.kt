@@ -2,6 +2,7 @@ package com.shihcheeng.hacgcompose.parser
 
 import android.util.Log
 import androidx.core.net.toUri
+import com.shihcheeng.hacgcompose.datamodel.DetailRating
 import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
 import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
 import com.shihcheeng.hacgcompose.networkservice.HacgService
@@ -101,6 +102,16 @@ class DetailParser @Inject constructor(
             )
         }
         cont.resume(list)
+    }
+
+    suspend fun parserRating(element: Element): DetailRating = suspendCoroutine {
+        val elementBox = element.select("#content > article > div.entry-header > div.post-ratings")
+        val tags = elementBox.first()?.getElementsByTag("strong")
+        val rating = DetailRating(
+            number = tags?.first()?.text()?.toIntOrNull() ?: 0,
+            rating = tags?.last()?.text()?.toFloatOrNull() ?: 0f
+        )
+        it.resume(rating)
     }
 
 }

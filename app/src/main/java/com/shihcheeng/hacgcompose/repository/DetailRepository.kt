@@ -1,5 +1,6 @@
 package com.shihcheeng.hacgcompose.repository
 
+import com.shihcheeng.hacgcompose.datamodel.DetailRating
 import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
 import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
 import com.shihcheeng.hacgcompose.parser.DetailParser
@@ -30,6 +31,12 @@ class DetailRepository @Inject constructor(
         element: Element
     ): List<MainDetailComment>? = withContext(Dispatchers.Default) {
         parser.parserComments(element)
+    }
+
+    suspend fun parserRatingStar(
+        element: Element
+    ):DetailRating = withContext(Dispatchers.Default){
+        parser.parserRating(element)
     }
 
 }

@@ -2,6 +2,8 @@ package com.shihcheeng.hacgcompose.ui.screen.main
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +34,7 @@ import com.shihcheeng.hacgcompose.ui.screen.main.morecate.MoreCategoryScreen
 fun MainScreen(
     onSearch: () -> Unit,
     onNav: (String) -> Unit,
+    onSetting: () -> Unit,
 ) {
     val (selectedIndex, onSelected) = rememberSaveable { mutableIntStateOf(0) }
     val navModels = MainNavModel.create()
@@ -50,6 +53,14 @@ fun MainScreen(
                         Icon(
                             painter = painterResource(R.drawable.baseline_search_24),
                             contentDescription = stringResource(R.string.input_search_text)
+                        )
+                    }
+                    IconButton(
+                        onClick = onSetting
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Settings,
+                            contentDescription = stringResource(R.string.go_to_setting)
                         )
                     }
                 },
@@ -88,7 +99,7 @@ fun MainScreen(
                 1 -> ArticleScreen(onNav = onNav)
                 2 -> AnimeScreen(onNav = onNav)
                 3 -> ComicScreen(onNav = onNav)
-                4 -> MoreCategoryScreen(onNav = onNav,behavior = scrollBehavior)
+                4 -> MoreCategoryScreen(onNav = onNav, behavior = scrollBehavior)
             }
         }
     }

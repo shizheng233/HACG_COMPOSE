@@ -1,7 +1,7 @@
 package com.shihcheeng.hacgcompose.di
 
+import com.shihcheeng.hacgcompose.components.setting.AppSetting
 import com.shihcheeng.hacgcompose.networkservice.HacgService
-import com.shihcheeng.hacgcompose.utils.BASE_URL
 import com.shihcheeng.hacgcompose.utils.JsoupTransferFactory
 import dagger.Module
 import dagger.Provides
@@ -39,11 +39,12 @@ object Network {
     @Provides
     @Singleton
     fun provideHacgService(
-        client: OkHttpClient
+        client: OkHttpClient,
+        appSetting: AppSetting
     ): HacgService {
         return Retrofit.Builder()
             .client(client)
-            .baseUrl(BASE_URL)
+            .baseUrl(appSetting.host.get())
             .addConverterFactory(JsoupTransferFactory())
             .build()
             .create(HacgService::class.java)

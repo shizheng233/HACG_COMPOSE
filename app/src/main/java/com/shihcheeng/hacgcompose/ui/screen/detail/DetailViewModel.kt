@@ -3,6 +3,7 @@ package com.shihcheeng.hacgcompose.ui.screen.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shihcheeng.hacgcompose.datamodel.DetailRating
 import com.shihcheeng.hacgcompose.datamodel.DetailTitleDataModel
 import com.shihcheeng.hacgcompose.datamodel.MainDetailComment
 import com.shihcheeng.hacgcompose.networkservice.RemoteLoadState
@@ -44,6 +45,9 @@ class DetailViewModel @Inject constructor(
     )
     val comments = _comments.asStateFlow()
 
+    private val _rating = MutableStateFlow(DetailRating.none())
+    val rating = _rating.asStateFlow()
+
     val titlePlain = MutableStateFlow("")
     val magnetList = MutableStateFlow(emptyList<String>())
 
@@ -65,6 +69,8 @@ class DetailViewModel @Inject constructor(
                 val comments = detailRepository.parserComments(data) ?: emptyList()
                 _comments.emit(RemoteLoadState.Success(comments))
                 magnetList.emit(data.text().magnet().toList().map { "magnet:?xt=urn:btih:$it" })
+                val ratingInner = detailRepository.parserRatingStar(data)
+                _rating.emit(ratingInner)
             }
         } catch (e: Exception) {
             e.printStackTrace()
