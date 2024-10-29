@@ -8,6 +8,7 @@ diskCacheVersion = "1.4"
 aboutLibrariesVersion = "11.2.3"
 navVersion = "2.8.3"
 conveeterVersion = "1.0.2"
+ratingbar = "1.3.12"
 
 [libraries]
 tools-coil = { group = "io.coil-kt", name = "coil", version.ref = "coilVersion" }
@@ -21,6 +22,7 @@ tools-about-core = { group = "com.mikepenz", name = "aboutlibraries-core", versi
 tools-about-compose = { group = "com.mikepenz", name = "aboutlibraries-compose-m3", version.ref = "aboutLibrariesVersion" }
 androidx-nav = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
 tools-htmlconverter = { module = "be.digitalia.compose.htmlconverter:htmlconverter", version.ref = "conveeterVersion" }
+tools-rating-bar = { module = "com.github.a914-gowtham:compose-ratingbar", version.ref = "ratingbar" }
 
 [plugins]
 

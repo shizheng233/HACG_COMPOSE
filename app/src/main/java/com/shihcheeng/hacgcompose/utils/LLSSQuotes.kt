@@ -1,9 +1,12 @@
+/*
+无意中发现的。
+ */
 package com.shihcheeng.hacgcompose.utils
 
 class LLSSQuotes private constructor(private val list: List<String>) {
 
-    fun getOne(): String {
-        return list[Math.round(31.0).toInt()]
+    fun random(): String {
+        return list.random()
     }
 
     companion object {

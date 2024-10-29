@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,19 +7,21 @@ plugins {
     alias(shihcheeng.plugins.ksp)
     alias(shihcheeng.plugins.compose.compiler)
 }
-
+val file = file("../gradle/version.log.properties")
 android {
     namespace = "com.shihcheeng.hacgcompose"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.shihcheeng.hacgcompose"
         minSdk = 29
         targetSdk = 35
-        versionCode = 1
+        val versionCodeProperty = Properties()
+        versionCodeProperty.load(file.inputStream())
+        val versionInner = versionCodeProperty.getProperty("version").toInt() + 1
+        versionCodeProperty["version"] = versionInner.toString()
+        versionCode = versionInner
         versionName = "1.0.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCodeProperty.store(file.writer(), null)
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -82,6 +86,7 @@ dependencies {
     implementation(shihcheeng.androidx.room)
     implementation(shihcheeng.androidx.room.ktx)
     ksp(shihcheeng.androidx.room.complier)
+    implementation(everyuse.tools.rating.bar)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
