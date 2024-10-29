@@ -5,7 +5,7 @@
     <string name="book">漫画</string>
     <string name="article">文章</string>
     <string name="time_by_author">%1$s 经由 %2$s 发布在 %3$s</string>
-    <string name="detail_info_author">%1$s 经由 %2$s</string>
+    <string name="detail_info_author">由%1$s于%2$s发布</string>
     <string name="input_search_text">输入搜索内容</string>
     <string name="unknown_error">未知错误</string>
     <string name="retry">重试</string>
@@ -30,4 +30,8 @@
     <string name="copy_magnet">复制</string>
     <string name="by_author_text">作者</string>
     <string name="sticky_top_text">顶置</string>
+    <string name="go_to_setting">跳转到设置</string>
+    <string name="select_host_title">选择服务器主机</string>
+    <string name="unknown">未知选择</string>
+    <string name="select_host_summary">选择HACG的内容提供服务器。这上面的都是从壁纸包附带文件找到的，并未山寨网址，所以不用担心。</string>
 </resources>

@@ -7,9 +7,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.shihcheeng.hacgcompose.ui.screen.RouterName.Detail.toDetailScreen
 import com.shihcheeng.hacgcompose.ui.screen.RouterName.Search.toSearch
+import com.shihcheeng.hacgcompose.ui.screen.RouterName.Setting.toSetting
 import com.shihcheeng.hacgcompose.ui.screen.detail.DetailScreen
 import com.shihcheeng.hacgcompose.ui.screen.main.MainScreen
 import com.shihcheeng.hacgcompose.ui.screen.search.SearchScreen
+import com.shihcheeng.hacgcompose.ui.screen.setting.SettingScreen
 import soup.compose.material.motion.animation.materialSharedAxisXIn
 import soup.compose.material.motion.animation.materialSharedAxisXOut
 import soup.compose.material.motion.animation.rememberSlideDistance
@@ -30,9 +32,12 @@ fun Router(
     ) {
         composable(RouterName.Main.name) {
             MainScreen(
-                onSearch = { navHostController.toSearch() }
+                onSearch = { navHostController.toSearch() },
+                onNav = {
+                    navHostController.toDetailScreen(it)
+                }
             ) {
-                navHostController.toDetailScreen(it)
+                navHostController.toSetting()
             }
         }
 
@@ -48,6 +53,11 @@ fun Router(
             }
         }
 
+        composable(route = RouterName.Setting.name) {
+            SettingScreen {
+                navHostController.popBackStack()
+            }
+        }
     }
 
 }
@@ -68,6 +78,12 @@ sealed class RouterName(val name: String) {
     data object Search : RouterName("SEARCH") {
         fun NavHostController.toSearch() {
             navigate(this@Search.name)
+        }
+    }
+
+    data object Setting : RouterName("SETTING") {
+        fun NavHostController.toSetting() {
+            navigate(this@Setting.name)
         }
     }
 

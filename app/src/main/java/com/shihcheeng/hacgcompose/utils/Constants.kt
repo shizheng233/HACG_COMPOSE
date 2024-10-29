@@ -4,6 +4,8 @@ import org.jsoup.nodes.Element
 
 
 const val BASE_URL = "https://www.hacg.icu/"
+const val BASE_URL_2 = "https://www.llss.icu"
+const val BASE_URL_3 = "https://www.hacg.mov"
 const val HOME_PAGE = "wp/"
 const val HOME_PAGE_WITH_PAGER = "wp/page/{count}"
 const val ARTICLE_PAGE = "wp/age.html"
@@ -25,11 +27,6 @@ const val COMMENT_LEVEL_4 = "wpd_comment_level-4"
 const val COMMENT_LEVEL_5 = "wpd_comment_level-5"
 const val COMMENT_BY_POST_AUTHOR = "bypostauthor"
 const val COMMENT_IS_STICKY_COMMENT = "wpd-sticky-comment"
-/*
-https://www.hacg.icu
-https://www.llss.icu
-https://www.hacg.mov
- */
 
 fun commentLevelFor(element: Element?): Int {
     val classesName = element?.classNames() ?: emptyList<String>()
