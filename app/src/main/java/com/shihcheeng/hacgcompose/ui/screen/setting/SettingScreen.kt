@@ -25,6 +25,7 @@ import com.shihcheeng.hacgcompose.ui.icons.MaterialSymbolsHostOutline
 import com.shihcheeng.hacgcompose.utils.extra.LocalAppSetting
 import com.shihcheeng.hacgcompose.utils.extra.findKeyByValue
 
+// TODO :add subhead and about screen.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen(
