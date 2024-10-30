@@ -14,6 +14,11 @@ fun String.magnet(): Sequence<String> = rMagnet
     .map { it.value } + rBaidu.findAll(this)
     .map { m -> "${m.groups[1]!!.value},${m.groups[2]!!.value}" }
 
+/**
+ * 实际上，它不经可以用了打开Magnet，也可用来打开普通的连接。
+ *
+ * @param magnet provide a link for open.
+ */
 fun Context.openMagnet(magnet: String) {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(magnet))
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

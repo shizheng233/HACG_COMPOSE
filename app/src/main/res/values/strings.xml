@@ -34,4 +34,10 @@
     <string name="select_host_title">选择服务器主机</string>
     <string name="unknown">未知选择</string>
     <string name="select_host_summary">选择HACG的内容提供服务器。这上面的都是从壁纸包附带文件找到的，并未山寨网址，所以不用担心。</string>
+    <string name="network_head">网络</string>
+    <string name="about_head">关于</string>
+    <string name="about_title">关于</string>
+    <string name="end_of_load">加载结束</string>
+    <string name="quotes">名言警句</string>
+    <string name="github_local">项目地址</string>
 </resources>

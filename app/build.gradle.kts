@@ -20,7 +20,7 @@ android {
         val versionInner = versionCodeProperty.getProperty("version").toInt() + 1
         versionCodeProperty["version"] = versionInner.toString()
         versionCode = versionInner
-        versionName = "1.0.0"
+        versionName = "1.0.1"
         versionCodeProperty.store(file.writer(), null)
         vectorDrawables {
             useSupportLibrary = true
@@ -49,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"

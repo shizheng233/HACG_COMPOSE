@@ -32,6 +32,11 @@ class AppSetting @Inject constructor(
 
         private const val APP_SETTING_PREF_NAME = "APP_SETTING_PREF"
         const val PREF_HOST = "PREF_HOST"
+        const val PREF_ABOUT = "PREF_ABOUT"
+
+        const val PREF_SUBHEAD_NET = "PREF_SUBHEAD_NET"
+        const val PREF_SUBHEAD_ABOUT = "PREF_SUBHEAD_ABOUT"
+
 
         @Composable
         fun createHostSelected(): Map<String, String> = remember {
