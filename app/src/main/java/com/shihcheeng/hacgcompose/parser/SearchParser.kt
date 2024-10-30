@@ -1,6 +1,7 @@
 package com.shihcheeng.hacgcompose.parser
 
 import com.shihcheeng.hacgcompose.datamodel.CategoryModel
+import com.shihcheeng.hacgcompose.datamodel.EndPageDataModel
 import com.shihcheeng.hacgcompose.datamodel.SearchItemDataModel
 import com.shihcheeng.hacgcompose.datamodel.TagModel
 import com.shihcheeng.hacgcompose.networkservice.HacgService
@@ -16,12 +17,13 @@ class SearchParser @AssistedInject constructor(
     @Assisted val word: String
 ) {
 
-    suspend fun parser(count: Int): List<SearchItemDataModel> {
+    suspend fun parser(count: Int): EndPageDataModel<List<SearchItemDataModel>> {
         val docs = if (count == 1) service.search(word) else service.search(count, word)
         return suspendCoroutine {
             val articles = docs.body().select("#content").first()
                 ?.getElementsByTag("article")
                 ?: error("没有找到内容")
+            val articleEnd = docs.body().select("#content > div > a.nextpostslink").first()
             val list = articles.filter { x ->
                 val header = x.getElementsByClass("entry-header")
                     .first()?.getElementsByTag("h1")?.first()?.getElementsByTag("a")?.first()
@@ -61,8 +63,8 @@ class SearchParser @AssistedInject constructor(
                 )
                 val tagBox = footerBox.getElementsByClass("tag-links").first()
                     ?.getElementsByTag("a")
-                val tagModels = tagBox?.map {
-                    TagModel(name = it.text(), href = it.attr("href"))
+                val tagModels = tagBox?.map { element ->
+                    TagModel(name = element.text(), href = element.attr("href"))
                 } ?: emptyList()
                 SearchItemDataModel(
                     title = title,
@@ -74,7 +76,8 @@ class SearchParser @AssistedInject constructor(
                     href = href
                 )
             }
-            it.resumeWith(Result.success(list))
+            val endAttach = EndPageDataModel(end = articleEnd == null, list)
+            it.resumeWith(Result.success(endAttach))
         }
     }
 

@@ -3,10 +3,18 @@
  */
 package com.shihcheeng.hacgcompose.utils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+
 class LLSSQuotes private constructor(private val list: List<String>) {
 
     fun random(): String {
         return list.random()
+    }
+
+    @Composable
+    fun rememberRandom(): String = remember {
+        list.random()
     }
 
     companion object {
@@ -14,8 +22,9 @@ class LLSSQuotes private constructor(private val list: List<String>) {
         /**
          * 创建琉璃神社下面的动漫语录集合。
          */
-        fun create(): LLSSQuotes {
-            val quotes = ArrayList<String>()
+        @Composable
+        fun create(): LLSSQuotes = remember {
+            val quotes = Array(31) { "" }
             quotes[0] = "得到了不该得到的，就会失去不该失去的。"
             quotes[1] =
                 "隐约雷鸣 阴霾天空 但盼风雨来 能留你在此 隐约雷鸣 阴霾天空 即使天无雨 我亦留此地《言叶之庭》"
@@ -54,8 +63,7 @@ class LLSSQuotes private constructor(private val list: List<String>) {
             quotes[29] =
                 "有时候，我们明明原谅了那个人，却无法真正快乐起来。那是因为，你忘了原谅自己。《银魂》"
             quotes[30] = "所谓结婚，就是把错误延续一生。《银魂》"
-            quotes.trimToSize()
-            return LLSSQuotes(list = quotes)
+            LLSSQuotes(list = quotes.toList())
         }
 
     }

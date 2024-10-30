@@ -81,24 +81,28 @@ fun DetailComment(
                         if (contentComment.isByAuthor) {
                             Badge(
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                contentColor = contentColorFor(MaterialTheme.colorScheme.primaryContainer)
+                                contentColor = contentColorFor(MaterialTheme.colorScheme.primaryContainer),
+                                modifier = Modifier.padding(start = 4.dp)
                             ) {
                                 Text(
                                     text = stringResource(R.string.by_author_text),
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.padding(2.dp)
                                 )
                             }
                         }
                         if (contentComment.isStickyTop) {
                             Badge(
                                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                                contentColor = contentColorFor(MaterialTheme.colorScheme.secondaryContainer)
+                                contentColor = contentColorFor(MaterialTheme.colorScheme.secondaryContainer),
+                                modifier = Modifier.padding(start = 4.dp)
                             ) {
                                 Text(
                                     text = stringResource(R.string.sticky_top_text),
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier.padding(2.dp)
                                 )
                             }
                         }

@@ -35,9 +35,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.shihcheeng.hacgcompose.R
+import com.shihcheeng.hacgcompose.components.ErrorItem
 import com.shihcheeng.hacgcompose.components.ErrorScreen
+import com.shihcheeng.hacgcompose.components.NoMoreContentItem
 import com.shihcheeng.hacgcompose.components.PagingTriStateScreen
 import com.shihcheeng.hacgcompose.components.WaitingSearchScreen
+import com.shihcheeng.hacgcompose.components.pagingTriStateScreen
 import com.shihcheeng.hacgcompose.utils.extra.margeWith
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -161,6 +164,17 @@ fun SearchScreen(
                             }
                         }
                     }
+                    pagingTriStateScreen(
+                        loadState = data.loadState.append,
+                        onError = {
+                            ErrorItem(errorMessage = it.localizedMessage) {
+                                data.retry()
+                            }
+                        },
+                        onNotLoading = {
+                            NoMoreContentItem()
+                        }
+                    )
                 }
             }
         }

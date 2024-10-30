@@ -17,9 +17,13 @@ class SearchPaging(private val parser: SearchParser) : PagingSource<Int, SearchI
         val key = params.key ?: 1
         return try {
             val data = parser.parser(key)
-            LoadResult.Page(data, null, key + 1)
+            LoadResult.Page(
+                data = data.data,
+                prevKey = null,
+                nextKey = if (data.end) null else key + 1
+            )
         } catch (e: Exception) {
-            LoadResult.Error(e)
+            LoadResult.Error(throwable = e)
         }
     }
 }
