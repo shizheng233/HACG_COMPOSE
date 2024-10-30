@@ -6,6 +6,9 @@
 
 **本代码仅供参考、交流、学习。请勿在公共领域传播，** 你也不想我开发个小应用直接变成牢字辈的吧。
 
+![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/shizheng233/HACG_COMPOSE/latest/total)
+
+
 ## 等待完成
 
 - 音乐播放：现在播放器就是一个摆设。
